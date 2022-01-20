@@ -4,6 +4,12 @@ This is a data harvester for the Department for Work and Pensions (DWP) [Stat-Ex
 
 # Installation
 
+To install from the [Python Package Index](https://pypi.org/) (PyPi):
+
+```bash
+pip install statxplore
+```
+
 ## Authentication
 
 The harvester authenticates against the remote server using an access token.
