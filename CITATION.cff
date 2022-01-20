@@ -1,0 +1,14 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Stat-Explore Harvest
+message: 'If you use this software, please cite it.'
+type: software
+authors:
+  - given-names: Joe Salvador Thornhill
+    family-names: Heffer
+    name-particle: Dr
+    email: j.heffer@sheffield.ac.uk
+    affiliation: The University of Sheffield
+    orcid: 'https://orcid.org/0000-0001-8733-1117'
