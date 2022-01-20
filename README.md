@@ -49,8 +49,7 @@ python . -o test.csv -q queries\relative-low-income-by-year-sheffield.json -c
 An authenticated HTTP session is required to communicate with the API.
 
 ```python
-
-from src.statxplore import http_session
+from statxplore import http_session
 
 session = http_session.StatSession(api_key='<access_token>')
 ```
@@ -67,7 +66,7 @@ The root endpoint, `/schema`, returns details of all datasets and folders at the
 
 ```python
 
-from src.statxplore import objects
+from statxplore import objects
 
 # List all data schemas
 objects.Schema.list(session)
