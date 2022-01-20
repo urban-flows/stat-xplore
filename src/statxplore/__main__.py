@@ -112,12 +112,16 @@ def get_args() -> argparse.Namespace:
                         help='CSV output file path', required=True)
     parser.add_argument('-c', '--csv', action='store_true',
                         help='Show CSV headers')
+    parser.add_argument('--version', action='store_true')
 
     return parser.parse_args()
 
 
 def main():
     args = get_args()
+    if args.version:
+        print('statxplore', statxplore.__version__)
+
     statxplore.utils.configure_logging(verbose=args.verbose, debug=args.debug,
                                        error=args.error)
 
