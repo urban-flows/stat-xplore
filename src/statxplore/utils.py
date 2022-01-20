@@ -3,14 +3,14 @@ import pathlib
 import sys
 import logging
 
-import settings
+import statxplore.settings
 
 LOGGER = logging.getLogger(__name__)
 
 
 def load_api_key(path: pathlib.Path = None) -> str:
     """
-    Read API access token from diskn
+    Read API access token from disk
     """
     path = pathlib.Path(path)
     with path.open() as file:
@@ -32,10 +32,12 @@ def handle_exception(exc_type, exc_value, exc_traceback):
         sys.__excepthook__(exc_type, exc_value, exc_traceback)
         return
 
-    LOGGER.exception("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+    LOGGER.exception("Uncaught exception",
+                     exc_info=(exc_type, exc_value, exc_traceback))
 
 
-def configure_logging(verbose: bool = False, debug: bool = False, error: str = None):
+def configure_logging(verbose: bool = False, debug: bool = False,
+                      error: str = None):
     """
     Configure logging
 
@@ -44,13 +46,15 @@ def configure_logging(verbose: bool = False, debug: bool = False, error: str = N
     :param error: Error log file path
     """
 
-    logging.basicConfig(level=logging.DEBUG if debug else logging.INFO if verbose else logging.WARNING,
-                        **settings.LOGGING)
+    logging.basicConfig(
+        level=logging.DEBUG if debug else logging.INFO if verbose else logging.WARNING,
+        **statxplore.settings.LOGGING)
 
     if error:
         # Error log file
         handler = logging.FileHandler(filename=error)
-        formatter = logging.Formatter(fmt=settings.LOGGING.get('format'))
+        formatter = logging.Formatter(
+            fmt=statxplore.settings.LOGGING.get('format'))
         handler.setFormatter(formatter)
         handler.setLevel(logging.ERROR)
 

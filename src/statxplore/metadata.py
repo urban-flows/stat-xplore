@@ -1,9 +1,9 @@
 import logging
 import argparse
 
-import http_session
-import utils
-import objects
+import statxplore.http_session
+import statxplore.utils
+import statxplore.objects
 
 LOGGER = logging.getLogger(__name__)
 
@@ -28,14 +28,16 @@ def main():
     args = get_args()
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
 
-    session = http_session.StatSession(api_key=args.api_key or utils.load_api_key())
+    session = statxplore.http_session.StatSession(
+        api_key=args.api_key or statxplore.utils.load_api_key())
 
     if args.rate_limit:
-        utils.jprint(session.rate_limit)
+        statxplore.utils.jprint(session.rate_limit)
     elif args.schema:
-        utils.jprint(objects.Schema(args.schema).get(session))
+        statxplore.utils.jprint(
+            statxplore.objects.Schema(args.schema).get(session))
     else:
-        utils.jprint(session.info)
+        statxplore.utils.jprint(session.info)
 
 
 if __name__ == '__main__':

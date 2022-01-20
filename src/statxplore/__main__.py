@@ -8,10 +8,10 @@ from collections import OrderedDict
 
 from typing import Iterable
 
-import http_session
-import objects
-import utils
-import settings
+import statxplore.http_session
+import statxplore.objects
+import statxplore.utils
+import statxplore.settings
 
 LOGGER = logging.getLogger(__name__)
 
@@ -26,7 +26,8 @@ def generate_rows(data: dict) -> Iterable[OrderedDict]:
     """
 
     # Get dimension labels
-    dim_labels = OrderedDict((field['uri'], field['label']) for field in data['fields'])
+    dim_labels = OrderedDict(
+        (field['uri'], field['label']) for field in data['fields'])
     for i, (uri, label) in enumerate(dim_labels.items()):
         LOGGER.info("DIMENSION %s: %s => %s", i, uri, label)
 
@@ -37,10 +38,12 @@ def generate_rows(data: dict) -> Iterable[OrderedDict]:
 
     # Get all measures for each cell
     # Iterate over dimensions
-    call_values = zip(*(flatten(cube['values']) for cube in data['cubes'].values()))
+    call_values = zip(
+        *(flatten(cube['values']) for cube in data['cubes'].values()))
 
     # Build dimension labels for each cell
-    cell_labels = itertools.product(*(field['items'] for field in data['fields']))
+    cell_labels = itertools.product(
+        *(field['items'] for field in data['fields']))
 
     # Iterate over cells
     for labels, values in zip(cell_labels, call_values):
@@ -77,7 +80,8 @@ def write_csv(buffer, rows: Iterable[OrderedDict], only_headers: bool = False):
         n_rows += 1
         if not writer:
             fieldnames = row.keys()
-            writer = csv.DictWriter(buffer, fieldnames=fieldnames, dialect=UrbanDialect)
+            writer = csv.DictWriter(buffer, fieldnames=fieldnames,
+                                    dialect=UrbanDialect)
             LOGGER.info("CSV headers: %s", fieldnames)
 
             if only_headers:
@@ -93,29 +97,40 @@ def get_args() -> argparse.Namespace:
 
     # Define arguments
     parser.add_argument('-k', '--api_key', help='API key')
-    parser.add_argument('-p', '--api_key_path', help='API key file path', default=settings.TOKEN_PATH)
-    parser.add_argument('-v', '--verbose', action='store_true', help='More logging information')
-    parser.add_argument('-d', '--debug', action='store_true', help='Extra verbose logging')
-    parser.add_argument('-e', '--error', help='Error log file path', default='error.log')
-    parser.add_argument('-q', '--query', type=pathlib.Path, help='Open data API query JSON file path', required=True)
-    parser.add_argument('-o', '--output', type=pathlib.Path, help='CSV output file path', required=True)
-    parser.add_argument('-c', '--csv', action='store_true', help='Show CSV headers')
+    parser.add_argument('-p', '--api_key_path', help='API key file path',
+                        default=statxplore.settings.TOKEN_PATH)
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='More logging information')
+    parser.add_argument('-d', '--debug', action='store_true',
+                        help='Extra verbose logging')
+    parser.add_argument('-e', '--error', help='Error log file path',
+                        default='error.log')
+    parser.add_argument('-q', '--query', type=pathlib.Path,
+                        help='Open data API query JSON file path',
+                        required=True)
+    parser.add_argument('-o', '--output', type=pathlib.Path,
+                        help='CSV output file path', required=True)
+    parser.add_argument('-c', '--csv', action='store_true',
+                        help='Show CSV headers')
 
     return parser.parse_args()
 
 
 def main():
     args = get_args()
-    utils.configure_logging(verbose=args.verbose, debug=args.debug, error=args.error)
+    statxplore.utils.configure_logging(verbose=args.verbose, debug=args.debug,
+                                       error=args.error)
 
-    session = http_session.StatSession(api_key=args.api_key or utils.load_api_key(args.api_key_path))
+    session = statxplore.http_session.StatSession(
+        api_key=args.api_key or statxplore.utils.load_api_key(
+            args.api_key_path))
 
     # Load query
     with args.query.open() as file:
         query = json.load(file)
 
     # Run query
-    data = objects.Table.query(session, **query)
+    data = statxplore.objects.Table.query(session, **query)
     rows = generate_rows(data)
 
     # Output

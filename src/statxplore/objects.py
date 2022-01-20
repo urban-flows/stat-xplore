@@ -32,8 +32,8 @@ class Table(StatObject):
     EDGE = 'table'
 
     @classmethod
-    def query(cls, session, measures: List[str], dimensions: List[list], database: str, recodes: dict = None,
-              **params) -> dict:
+    def query(cls, session, measures: List[str], dimensions: List[list],
+              database: str, recodes: dict = None, **params) -> dict:
         """
         The /table endpoint allows you to submit table queries and receive the results.
 
@@ -47,7 +47,8 @@ class Table(StatObject):
             recodes=recodes,
             dimensions=dimensions,
         )
-        return session.call(cls.EDGE, method='POST', json=request_body, params=params)
+        return session.call(cls.EDGE, method='POST', json=request_body,
+                            params=params)
 
     @classmethod
     def query_json(cls, session, query: str, **params) -> dict:

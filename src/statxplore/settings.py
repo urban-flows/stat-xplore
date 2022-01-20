@@ -1,6 +1,8 @@
+import os
 import pathlib
 
-CONFIGS_DIR = pathlib.Path.home().joinpath('configs')
+HOME = pathlib.Path.home()
+CONFIGS_DIR = pathlib.Path(os.getenv('CONFIGS_DIR', HOME.joinpath('configs')))
 TOKEN_PATH = CONFIGS_DIR.joinpath('stat_explore.txt')
 
 # Arguments for logging.basicConfig
