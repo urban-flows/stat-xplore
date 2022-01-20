@@ -19,9 +19,9 @@ To use the harvester you must register an account on [Stat-Xplore](https://stat-
 This token must be input to the harvester either in the command line or from a file (the default path is `~/configs/stat_explore.txt`) as shown below:
 
 ```bash
-python . --api_key <my_access_token>
+statxplore --api_key <my_access_token>
 # or
-python . --api_key_path ~/configs/stat_explore.txt
+statxplore --api_key_path ~/configs/stat_explore.txt
 ```
 
 # Usage
@@ -29,7 +29,7 @@ python . --api_key_path ~/configs/stat_explore.txt
 To view the available commands and options, run the following command:
 
 ```bash
-$ python . --help
+statxplore --help
 ```
 
 ## Querying
@@ -39,7 +39,7 @@ To get a query specification in JSON format, visit [Stat-Xplore](https://stat-xp
 Run the following command to execute a query and output the result to a CSV file:
 
 ```bash
-$ python . -o test.csv -q queries\relative-low-income-by-year-sheffield.json
+statxplore -o test.csv -q queries\relative-low-income-by-year-sheffield.json
 ```
 
 Where `-o` (`--output`) is the output CSV file path, `-q` (`--query`) is the query JSON file.
@@ -47,7 +47,7 @@ Where `-o` (`--output`) is the output CSV file path, `-q` (`--query`) is the que
 To generate the CSV headers that will result from a particular query, use the `--csv` (`-c`) flag:
 
 ```bash
-python . -o test.csv -q queries\relative-low-income-by-year-sheffield.json -c
+statxplore -o test.csv -q queries\relative-low-income-by-year-sheffield.json -c
 ```
 
 # Code documentation
